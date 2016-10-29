@@ -36,7 +36,6 @@ public class ScheduleActivity extends AppCompatActivity implements MyLocationHel
         mLocationProvider = new MyLocationHelper(this, this);
         mLocationProvider.connect();
 
-        trains = new ArrayList<Train>();
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -48,10 +47,12 @@ public class ScheduleActivity extends AppCompatActivity implements MyLocationHel
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        trains = new ArrayList<Train>();
         adapter = new ScheduleAdapter(this, trains);
         ListView listView = (ListView) findViewById(R.id.lvSchedule);
         listView.setAdapter(adapter);
-        fetchScheduleData();
+        //fetchScheduleData();
     }
 
     private void fetchScheduleData() {
@@ -61,10 +62,12 @@ public class ScheduleActivity extends AppCompatActivity implements MyLocationHel
                 Log.d("DEBUG", response.toString());
                 trains.clear();
                 ArrayList<Train> newTrains = Train.fromJSONArray(response);
+                int count = 0;
                 for(int i = 0; i < newTrains.size(); i++){
                     Train train = newTrains.get(i);
                     if(calculateDistanceMeters(currentLocation,train.getLocation()) <= 3000){
-                        trains.add(i,train);
+                        trains.add(count,train);
+                        count++;
                     }
                 }
                 // trains.addAll(Train.fromJSONArray(response));
@@ -107,6 +110,7 @@ public class ScheduleActivity extends AppCompatActivity implements MyLocationHel
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         currentLocation = location;
         Toast.makeText(this,"new location found!",Toast.LENGTH_LONG).show();
+        fetchScheduleData();
     }
 
     public float calculateDistanceMeters(Location currentLocation, Location transitLocation){

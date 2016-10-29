@@ -21,6 +21,7 @@ public class ScheduleAdapter extends ArrayAdapter<Train> {
     private static class ViewHolder {
         TextView tvStationName;
         TextView tvETA;
+        TextView tvDirection;
     }
 
     public ScheduleAdapter(Context context, ArrayList<Train> users) {
@@ -40,6 +41,7 @@ public class ScheduleAdapter extends ArrayAdapter<Train> {
             convertView = inflater.inflate(R.layout.item_train, parent, false);
             viewHolder.tvStationName = (TextView) convertView.findViewById(R.id.tvStationName);
             viewHolder.tvETA = (TextView) convertView.findViewById(R.id.tvETA);
+            viewHolder.tvDirection = (TextView) convertView.findViewById(R.id.tvDirection);
             // Cache the viewHolder object inside the fresh view
             convertView.setTag(viewHolder);
         } else {
@@ -49,6 +51,7 @@ public class ScheduleAdapter extends ArrayAdapter<Train> {
         // Populate the data into the template view using the data object
         viewHolder.tvStationName.setText(train.getStation());
         viewHolder.tvETA.setText(train.getWaitingTime()); // TODO fix this
+        viewHolder.tvDirection.setText(train.getDirection());
         // Return the completed view to render on screen
         return convertView;
     }

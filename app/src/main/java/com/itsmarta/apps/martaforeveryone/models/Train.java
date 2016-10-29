@@ -270,6 +270,7 @@ public class Train {
         Train train = new Train();
         try {
             train.Destination = jsonObject.getString("DESTINATION");
+            train.Direction = jsonObject.getString("DIRECTION");
             train.EventTime = jsonObject.getString("EVENT_TIME");
             train.Line = jsonObject.getString("LINE");
             train.NextArrival = jsonObject.getString("NEXT_ARR");
